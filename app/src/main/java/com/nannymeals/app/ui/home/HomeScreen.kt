@@ -12,10 +12,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.nannymeals.app.data.entity.MealType
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.nannymeals.app.R
+import com.nannymeals.app.domain.model.MealType
 import com.nannymeals.app.domain.model.Child
 import com.nannymeals.app.domain.model.Meal
 import com.nannymeals.app.ui.theme.*
@@ -24,6 +28,7 @@ import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@Preview
 fun HomeScreen(
     onNavigateToMeals: () -> Unit,
     onNavigateToChildren: () -> Unit,
@@ -59,7 +64,7 @@ fun HomeScreen(
             ExtendedFloatingActionButton(
                 onClick = { onNavigateToAddMeal(LocalDate.now()) },
                 icon = { Icon(Icons.Default.Add, contentDescription = null) },
-                text = { Text("Ajouter un repas") },
+                text = { Text(stringResource(R.string.add_meal)) },
                 containerColor = MaterialTheme.colorScheme.primary
             )
         }
@@ -78,7 +83,7 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 QuickStatCard(
-                    title = "Enfants",
+                    title = stringResource(R.string.children),
                     value = children.size.toString(),
                     icon = Icons.Default.ChildCare,
                     onClick = onNavigateToChildren,
@@ -86,7 +91,7 @@ fun HomeScreen(
                 )
                 
                 QuickStatCard(
-                    title = "Repas du jour",
+                    title = stringResource(R.string.todays_meals),
                     value = todaysMeals.size.toString(),
                     icon = Icons.Default.Restaurant,
                     onClick = onNavigateToMeals,
@@ -96,7 +101,7 @@ fun HomeScreen(
 
             // Today's Meals Section
             SectionHeader(
-                title = "Repas du jour",
+                title = stringResource(R.string.todays_meals),
                 onSeeAll = onNavigateToMeals
             )
             
@@ -123,7 +128,7 @@ fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            "Aucun repas enregistré aujourd'hui",
+                            stringResource(R.string.no_meals_logged),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -133,7 +138,7 @@ fun HomeScreen(
                         ) {
                             Icon(Icons.Default.Add, contentDescription = null)
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("Ajouter le premier repas")
+                            Text(stringResource(R.string.add_meal))
                         }
                     }
                 }
@@ -145,15 +150,15 @@ fun HomeScreen(
                         .padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    MealType.values().forEach { type ->
+                    MealType.entries.forEach { type ->
                         val count = todaysMeals.count { it.mealType == type }
                         val color = when (type) {
                             MealType.LUNCH -> LunchColor
                             MealType.SNACK -> SnackColor
                         }
                         val typeName = when (type) {
-                            MealType.LUNCH -> "Déjeuner"
-                            MealType.SNACK -> "Collation"
+                            MealType.LUNCH -> stringResource(R.string.lunch)
+                            MealType.SNACK -> stringResource(R.string.snack)
                         }
                         
                         MealTypeSummaryChip(
@@ -170,7 +175,7 @@ fun HomeScreen(
 
             // Children Section
             SectionHeader(
-                title = "Enfants",
+                title = stringResource(R.string.children),
                 onSeeAll = onNavigateToChildren
             )
             
@@ -197,7 +202,7 @@ fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            "Aucun enfant ajouté",
+                            stringResource(R.string.no_children_added),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -205,7 +210,7 @@ fun HomeScreen(
                         OutlinedButton(onClick = onNavigateToChildren) {
                             Icon(Icons.Default.Add, contentDescription = null)
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("Ajouter des enfants")
+                            Text(stringResource(R.string.add_child))
                         }
                     }
                 }
@@ -223,7 +228,7 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             // Quick Actions
-            SectionHeader(title = "Actions rapides")
+            SectionHeader(title = stringResource(R.string.quick_actions))
             
             Row(
                 modifier = Modifier
@@ -232,14 +237,14 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 QuickActionCard(
-                    title = "Voir les rapports",
+                    title = stringResource(R.string.reports),
                     icon = Icons.Default.Assessment,
                     onClick = onNavigateToReports,
                     modifier = Modifier.weight(1f)
                 )
                 
                 QuickActionCard(
-                    title = "Ajouter un enfant",
+                    title = stringResource(R.string.add_child),
                     icon = Icons.Default.PersonAdd,
                     onClick = onNavigateToChildren,
                     modifier = Modifier.weight(1f)
@@ -313,7 +318,7 @@ fun SectionHeader(
         
         onSeeAll?.let {
             TextButton(onClick = it) {
-                Text("Tout voir")
+                Text(stringResource(R.string.see_all))
                 Icon(
                     Icons.Default.ChevronRight,
                     contentDescription = null,
@@ -384,7 +389,7 @@ fun ChildChip(child: Child) {
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    text = child.ageDisplay,
+                    text = child.getAgeDisplay(LocalContext.current),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

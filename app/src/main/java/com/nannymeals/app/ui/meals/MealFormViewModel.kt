@@ -4,11 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nannymeals.app.data.entity.FoodCategory
-import com.nannymeals.app.data.entity.MealType
 import com.nannymeals.app.domain.model.Child
 import com.nannymeals.app.domain.model.FoodItem
 import com.nannymeals.app.domain.model.Meal
 import com.nannymeals.app.domain.model.MealItem
+import com.nannymeals.app.domain.model.MealType
 import com.nannymeals.app.domain.repository.ChildRepository
 import com.nannymeals.app.domain.repository.FoodItemRepository
 import com.nannymeals.app.domain.repository.MealRepository

@@ -31,32 +31,32 @@ sealed class Screen(val route: String) {
 
 sealed class BottomNavItem(
     val route: String,
-    val title: String,
+    val titleResId: Int,
     val icon: ImageVector
 ) {
     object Home : BottomNavItem(
         Screen.Home.route,
-        "Accueil",
+        com.nannymeals.app.R.string.home,
         Icons.Filled.Home
     )
     object Meals : BottomNavItem(
         Screen.Meals.route,
-        "Repas",
+        com.nannymeals.app.R.string.meals,
         Icons.Filled.Restaurant
     )
     object Children : BottomNavItem(
         Screen.Children.route,
-        "Enfants",
+        com.nannymeals.app.R.string.children,
         Icons.Filled.ChildCare
     )
     object Reports : BottomNavItem(
         Screen.Reports.route,
-        "Rapports",
+        com.nannymeals.app.R.string.reports,
         Icons.Filled.Assessment
     )
     object Settings : BottomNavItem(
         Screen.Settings.route,
-        "Paramètres",
+        com.nannymeals.app.R.string.settings,
         Icons.Filled.Settings
     )
 }

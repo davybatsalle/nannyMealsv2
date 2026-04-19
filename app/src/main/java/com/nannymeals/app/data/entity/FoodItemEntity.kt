@@ -4,6 +4,8 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+import com.nannymeals.app.R
+
 /**
  * A catalog of food items that can be reused across meals.
  * This helps with suggestions and avoiding repetition.
@@ -30,81 +32,81 @@ data class FoodItemEntity(
 object DefaultFoodItems {
     
     val proteins = listOf(
-        "Poulet" to FoodCategory.PROTEIN,
-        "Bœuf" to FoodCategory.PROTEIN,
-        "Poisson" to FoodCategory.PROTEIN,
-        "Dinde" to FoodCategory.PROTEIN,
-        "Porc" to FoodCategory.PROTEIN,
-        "Œufs" to FoodCategory.PROTEIN,
-        "Tofu" to FoodCategory.PROTEIN,
-        "Haricots" to FoodCategory.PROTEIN,
-        "Lentilles" to FoodCategory.PROTEIN,
-        "Fromage" to FoodCategory.PROTEIN
+        R.string.food_chicken to FoodCategory.PROTEIN,
+        R.string.food_beef to FoodCategory.PROTEIN,
+        R.string.food_fish to FoodCategory.PROTEIN,
+        R.string.food_turkey to FoodCategory.PROTEIN,
+        R.string.food_pork to FoodCategory.PROTEIN,
+        R.string.food_eggs to FoodCategory.PROTEIN,
+        R.string.food_tofu to FoodCategory.PROTEIN,
+        R.string.food_beans to FoodCategory.PROTEIN,
+        R.string.food_lentils to FoodCategory.PROTEIN,
+        R.string.food_cheese to FoodCategory.PROTEIN
     )
     
     val grains = listOf(
-        "Riz" to FoodCategory.GRAIN,
-        "Pâtes" to FoodCategory.GRAIN,
-        "Pain" to FoodCategory.GRAIN,
-        "Céréales" to FoodCategory.GRAIN,
-        "Flocons d'avoine" to FoodCategory.GRAIN,
-        "Crêpes" to FoodCategory.GRAIN,
-        "Tartine" to FoodCategory.GRAIN,
-        "Biscuits salés" to FoodCategory.GRAIN,
-        "Tortilla" to FoodCategory.GRAIN,
-        "Nouilles" to FoodCategory.GRAIN
+        R.string.food_rice to FoodCategory.GRAIN,
+        R.string.food_pasta to FoodCategory.GRAIN,
+        R.string.food_bread to FoodCategory.GRAIN,
+        R.string.food_cereal to FoodCategory.GRAIN,
+        R.string.food_oatmeal to FoodCategory.GRAIN,
+        R.string.food_pancakes to FoodCategory.GRAIN,
+        R.string.food_toast to FoodCategory.GRAIN,
+        R.string.food_crackers to FoodCategory.GRAIN,
+        R.string.food_tortilla to FoodCategory.GRAIN,
+        R.string.food_noodles to FoodCategory.GRAIN
     )
     
     val vegetables = listOf(
-        "Carottes" to FoodCategory.VEGETABLE,
-        "Brocoli" to FoodCategory.VEGETABLE,
-        "Petits pois" to FoodCategory.VEGETABLE,
-        "Haricots verts" to FoodCategory.VEGETABLE,
-        "Maïs" to FoodCategory.VEGETABLE,
-        "Patate douce" to FoodCategory.VEGETABLE,
-        "Pomme de terre" to FoodCategory.VEGETABLE,
-        "Tomate" to FoodCategory.VEGETABLE,
-        "Concombre" to FoodCategory.VEGETABLE,
-        "Épinards" to FoodCategory.VEGETABLE
+        R.string.food_carrots to FoodCategory.VEGETABLE,
+        R.string.food_broccoli to FoodCategory.VEGETABLE,
+        R.string.food_peas to FoodCategory.VEGETABLE,
+        R.string.food_green_beans to FoodCategory.VEGETABLE,
+        R.string.food_corn to FoodCategory.VEGETABLE,
+        R.string.food_sweet_potato to FoodCategory.VEGETABLE,
+        R.string.food_potato to FoodCategory.VEGETABLE,
+        R.string.food_tomato to FoodCategory.VEGETABLE,
+        R.string.food_cucumber to FoodCategory.VEGETABLE,
+        R.string.food_spinach to FoodCategory.VEGETABLE
     )
     
     val fruits = listOf(
-        "Pomme" to FoodCategory.FRUIT,
-        "Banane" to FoodCategory.FRUIT,
-        "Orange" to FoodCategory.FRUIT,
-        "Raisins" to FoodCategory.FRUIT,
-        "Fraises" to FoodCategory.FRUIT,
-        "Myrtilles" to FoodCategory.FRUIT,
-        "Pastèque" to FoodCategory.FRUIT,
-        "Poire" to FoodCategory.FRUIT,
-        "Pêche" to FoodCategory.FRUIT,
-        "Mangue" to FoodCategory.FRUIT
+        R.string.food_apple to FoodCategory.FRUIT,
+        R.string.food_banana to FoodCategory.FRUIT,
+        R.string.food_orange to FoodCategory.FRUIT,
+        R.string.food_grapes to FoodCategory.FRUIT,
+        R.string.food_strawberries to FoodCategory.FRUIT,
+        R.string.food_blueberries to FoodCategory.FRUIT,
+        R.string.food_watermelon to FoodCategory.FRUIT,
+        R.string.food_pear to FoodCategory.FRUIT,
+        R.string.food_peach to FoodCategory.FRUIT,
+        R.string.food_mango to FoodCategory.FRUIT
     )
     
     val dairy = listOf(
-        "Lait" to FoodCategory.DAIRY,
-        "Yaourt" to FoodCategory.DAIRY,
-        "Fromage" to FoodCategory.DAIRY,
-        "Fromage blanc" to FoodCategory.DAIRY
+        R.string.food_milk to FoodCategory.DAIRY,
+        R.string.food_yogurt to FoodCategory.DAIRY,
+        R.string.food_cheese to FoodCategory.DAIRY,
+        R.string.food_cottage_cheese to FoodCategory.DAIRY
     )
     
     val drinks = listOf(
-        "Eau" to FoodCategory.DRINK,
-        "Jus de fruits" to FoodCategory.DRINK,
-        "Lait" to FoodCategory.DRINK,
-        "Smoothie" to FoodCategory.DRINK
+        R.string.food_water to FoodCategory.DRINK,
+        R.string.food_fruit_juice to FoodCategory.DRINK,
+        R.string.food_milk to FoodCategory.DRINK,
+        R.string.food_smoothie to FoodCategory.DRINK
     )
     
     val snacks = listOf(
-        "Biscuits salés" to FoodCategory.SNACK,
-        "Compote de fruits" to FoodCategory.SNACK,
-        "Barre de céréales" to FoodCategory.SNACK,
-        "Biscuits" to FoodCategory.SNACK,
-        "Bretzels" to FoodCategory.SNACK,
-        "Bâtonnet de fromage" to FoodCategory.SNACK
+        R.string.food_crackers to FoodCategory.SNACK,
+        R.string.food_applesauce to FoodCategory.SNACK,
+        R.string.food_granola_bar to FoodCategory.SNACK,
+        R.string.food_cookies to FoodCategory.SNACK,
+        R.string.food_pretzels to FoodCategory.SNACK,
+        R.string.food_cheese_stick to FoodCategory.SNACK
     )
     
-    fun getAllDefaults(): List<Pair<String, FoodCategory>> {
+    fun getAllDefaults(): List<Pair<Int, FoodCategory>> {
         return proteins + grains + vegetables + fruits + dairy + drinks + snacks
     }
 }

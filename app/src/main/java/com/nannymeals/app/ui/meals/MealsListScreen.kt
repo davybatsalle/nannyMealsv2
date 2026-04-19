@@ -25,7 +25,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.nannymeals.app.data.entity.MealType
+import androidx.compose.ui.res.stringResource
+import com.nannymeals.app.R
+import com.nannymeals.app.domain.model.MealType
 import com.nannymeals.app.domain.model.Meal
 import com.nannymeals.app.ui.theme.*
 import java.time.DayOfWeek
@@ -50,15 +52,15 @@ fun MealsListScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Repas") },
+                title = { Text(stringResource(R.string.meals)) },
                 actions = {
                     IconButton(onClick = viewModel::goToToday) {
-                        Icon(Icons.Default.Today, contentDescription = "Aujourd'hui")
+                        Icon(Icons.Default.Today, contentDescription = stringResource(R.string.today))
                     }
                     IconButton(onClick = viewModel::toggleCalendarView) {
                         Icon(
                             imageVector = if (uiState.showCalendar) Icons.Default.ViewList else Icons.Default.CalendarMonth,
-                            contentDescription = "Changer de vue"
+                            contentDescription = stringResource(R.string.change_view)
                         )
                     }
                 },
@@ -74,7 +76,7 @@ fun MealsListScreen(
                 onClick = { onNavigateToAddMeal(uiState.selectedDate) },
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Ajouter un repas")
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_meal))
             }
         }
     ) { paddingValues ->
@@ -119,7 +121,7 @@ fun MealsListScreen(
                     if (mealsForSelectedDate.isNotEmpty()) {
                         IconButton(
                             onClick = {
-                                val shareText = viewModel.generateShareText()
+                                val shareText = viewModel.generateShareText(context)
                                 if (shareText != null) {
                                     shareToFacebook(context, shareText)
                                 }
@@ -128,7 +130,7 @@ fun MealsListScreen(
                         ) {
                             Icon(
                                 Icons.Default.Share,
-                                contentDescription = "Partager sur Facebook",
+                                contentDescription = stringResource(R.string.share_on_facebook),
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
@@ -137,7 +139,7 @@ fun MealsListScreen(
                     if (uiState.selectedDate == LocalDate.now()) {
                         AssistChip(
                             onClick = { },
-                            label = { Text("Aujourd'hui") },
+                            label = { Text(stringResource(R.string.today)) },
                             modifier = Modifier.height(28.dp)
                         )
                     }
@@ -178,16 +180,22 @@ fun MealsListScreen(
                 uiState.mealToDelete?.let { meal ->
                     AlertDialog(
                         onDismissRequest = viewModel::dismissDeleteConfirmation,
-                        title = { Text("Supprimer le repas") },
-                        text = { Text("Êtes-vous sûr de vouloir supprimer cette entrée de ${meal.mealTypeDisplay.lowercase()} ?") },
+                        title = { Text(stringResource(R.string.delete_meal)) },
+                        text = { 
+                            val mealTypeDisplay = when (meal.mealType) {
+                                MealType.LUNCH -> stringResource(R.string.lunch)
+                                MealType.SNACK -> stringResource(R.string.snack)
+                            }
+                            Text(stringResource(R.string.delete_meal_question, mealTypeDisplay.lowercase())) 
+                        },
                         confirmButton = {
-                            TextButton(onClick = { viewModel.deleteMeal(meal.id) }) {
-                                Text("Supprimer", color = MaterialTheme.colorScheme.error)
+                            TextButton(onClick = { viewModel.deleteMeal(meal.id, context) }) {
+                                Text(stringResource(R.string.delete), color = MaterialTheme.colorScheme.error)
                             }
                         },
                         dismissButton = {
                             TextButton(onClick = viewModel::dismissDeleteConfirmation) {
-                                Text("Annuler")
+                                Text(stringResource(R.string.cancel))
                             }
                         }
                     )
@@ -201,7 +209,7 @@ fun MealsListScreen(
                             .padding(16.dp),
                         action = {
                             TextButton(onClick = viewModel::clearError) {
-                                Text("Fermer")
+                                Text(stringResource(R.string.close))
                             }
                         }
                     ) {
@@ -233,7 +241,7 @@ fun CalendarView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onPreviousMonth) {
-                Icon(Icons.Default.ChevronLeft, contentDescription = "Mois précédent")
+                Icon(Icons.Default.ChevronLeft, contentDescription = stringResource(R.string.previous_month))
             }
             
             Text(
@@ -243,7 +251,7 @@ fun CalendarView(
             )
             
             IconButton(onClick = onNextMonth) {
-                Icon(Icons.Default.ChevronRight, contentDescription = "Mois suivant")
+                Icon(Icons.Default.ChevronRight, contentDescription = stringResource(R.string.next_month))
             }
         }
         
@@ -392,7 +400,7 @@ fun MealCard(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
-                            text = meal.mealTypeDisplay,
+                            text = meal.getMealTypeDisplay(LocalContext.current),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
@@ -409,7 +417,7 @@ fun MealCard(
                     IconButton(onClick = onDelete) {
                         Icon(
                             Icons.Default.Delete,
-                            contentDescription = "Supprimer",
+                            contentDescription = stringResource(R.string.delete),
                             tint = MaterialTheme.colorScheme.error
                         )
                     }
@@ -478,7 +486,7 @@ fun EmptyMealsState(
         Spacer(modifier = Modifier.height(16.dp))
         
         Text(
-            text = "Aucun repas enregistré",
+            text = stringResource(R.string.no_meals_logged),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -486,7 +494,7 @@ fun EmptyMealsState(
         Spacer(modifier = Modifier.height(8.dp))
         
         Text(
-            text = "Appuyez sur + pour ajouter un repas pour ce jour",
+            text = stringResource(R.string.tap_to_add_meal),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -496,7 +504,7 @@ fun EmptyMealsState(
         Button(onClick = onAddMeal) {
             Icon(Icons.Default.Add, contentDescription = null)
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Ajouter un repas")
+            Text(stringResource(R.string.add_meal))
         }
     }
 }
@@ -526,12 +534,12 @@ private fun shareToFacebook(context: android.content.Context, text: String) {
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, text)
             }
-            context.startActivity(Intent.createChooser(shareIntent, "Partager les repas"))
+            context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.share_meals)))
         }
     } catch (e: Exception) {
         Toast.makeText(
             context,
-            "Impossible de partager. Veuillez réessayer.",
+            context.getString(R.string.share_error),
             Toast.LENGTH_SHORT
         ).show()
     }

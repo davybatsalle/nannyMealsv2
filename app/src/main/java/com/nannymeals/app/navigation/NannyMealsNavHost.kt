@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -47,9 +48,10 @@ fun NannyMealsNavHost(
             if (showBottomNav) {
                 NavigationBar {
                     bottomNavItems.forEach { item ->
+                        val title = stringResource(item.titleResId)
                         NavigationBarItem(
-                            icon = { Icon(item.icon, contentDescription = item.title) },
-                            label = { Text(item.title, maxLines = 1, softWrap = false) },
+                            icon = { Icon(item.icon, contentDescription = title) },
+                            label = { Text(title, maxLines = 1, softWrap = false) },
                             selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
                             onClick = {
                                 navController.navigate(item.route) {

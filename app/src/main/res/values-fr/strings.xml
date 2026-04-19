@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NannyMeals</string>
+
+    <!-- Authentication -->
+    <string name="login">Connexion</string>
+    <string name="register">S\'inscrire</string>
+    <string name="email">E-mail</string>
+    <string name="password">Mot de passe</string>
+    <string name="confirm_password">Confirmer le mot de passe</string>
+    <string name="forgot_password">Mot de passe oublié ?</string>
+    <string name="no_account">Pas encore de compte ? S\'inscrire</string>
+    <string name="have_account">Déjà un compte ? Se connecter</string>
+    <string name="logout">Déconnexion</string>
+
+    <!-- Navigation -->
+    <string name="home">Accueil</string>
+    <string name="meals">Repas</string>
+    <string name="todays_meals">Repas du jour</string>
+    <string name="children">Enfants</string>
+    <string name="reports">Rapports</string>
+    <string name="settings">Paramètres</string>
+
+    <!-- Meal Types -->
+    <string name="breakfast">Petit-déjeuner</string>
+    <string name="lunch">Déjeuner</string>
+    <string name="dinner">Dîner</string>
+    <string name="snack">Goûter</string>
+
+    <!-- Child Profiles -->
+    <string name="add_child">Ajouter un enfant</string>
+    <string name="edit_child">Modifier l\'enfant</string>
+    <string name="child_name">Nom de l\'enfant</string>
+    <string name="child_name_required">Nom *</string>
+    <string name="child_age">Âge</string>
+    <string name="age_years">%1$d ans</string>
+    <string name="age_not_specified">Âge non spécifié</string>
+    <string name="date_of_birth">Date de naissance</string>
+    <string name="select_date">Sélectionner la date</string>
+    <string name="child_info">Informations de l\'enfant</string>
+    <string name="health_info">Informations de santé</string>
+    <string name="parent_info">Informations du parent/tuteur</string>
+    <string name="parent_name">Nom du parent/tuteur</string>
+    <string name="parent_email">E-mail du parent/tuteur</string>
+    <string name="parent_email_description">Pour envoyer les rapports de repas</string>
+    <string name="dietary_restrictions">Restrictions alimentaires</string>
+    <string name="dietary_restrictions_label">Restrictions alimentaires (ex: Végétarien, sans sucre)</string>
+    <string name="dietary_restrictions_hint">Séparez les restrictions par des virgules</string>
+    <string name="allergies">Allergies</string>
+    <string name="allergies_label">Allergies (ex: Arachides, produits laitiers)</string>
+    <string name="allergies_hint">Séparez les allergies par des virgules</string>
+    <string name="delete_child">Supprimer l\'enfant</string>
+    <string name="delete_child_confirmation">Êtes-vous sûr de vouloir supprimer ce profil d\'enfant ? Cela supprimera également tous les repas associés.</string>
+    <string name="delete_child_question">Êtes-vous sûr de vouloir supprimer le profil de %1$s ?</string>
+    <string name="diet">Régime</string>
+    <string name="add_child_description">Ajoutez un enfant pour commencer à suivre ses repas</string>
+
+    <!-- Meal Logging -->
+    <string name="add_meal">Ajouter un repas</string>
+    <string name="edit_meal">Modifier le repas</string>
+    <string name="meal_type_required_label">Type de repas *</string>
+    <string name="children_required_label">Enfants *</string>
+    <string name="date_and_time">Date et heure</string>
+    <string name="select_time">Sélectionner l\'heure</string>
+    <string name="what_is_served">Qu\'est-ce qui est servi ?</string>
+    <string name="add_food_item">Ajouter un aliment</string>
+    <string name="frequently_used">Fréquemment utilisés</string>
+    <string name="try_something_different">💡 Essayez quelque chose de différent</string>
+    <string name="add_notes_optional">Ajouter des notes (optionnel)</string>
+    <string name="notes_placeholder">Ex: L\'enfant a apprécié le repas, restes, etc.</string>
+    <string name="search_food">Rechercher des aliments</string>
+    <string name="add_custom_item">Ajouter un aliment personnalisé</string>
+    <string name="food_name">Nom de l\'aliment</string>
+    <string name="category">Catégorie</string>
+    <string name="no_food_found">Aucun aliment trouvé pour \"%1$s\"</string>
+    <string name="add_as_new_food">Ajouter \"%1$s\" comme nouvel aliment</string>
+    <string name="search_results">Résultats de recherche</string>
+    <string name="quick_add">Ajout rapide</string>
+    <string name="add_first_meal">Ajouter le premier repas</string>
+    <string name="meal_type">Type de repas</string>
+    <string name="meal_date">Date</string>
+    <string name="meal_time">Heure</string>
+    <string name="meal_notes">Notes</string>
+    <string name="select_children">Sélectionner les enfants</string>
+    <string name="delete_meal">Supprimer le repas</string>
+    <string name="delete_meal_confirmation">Êtes-vous sûr de vouloir supprimer ce repas ?</string>
+
+    <!-- Reports -->
+    <string name="generate_report">Générer le rapport</string>
+    <string name="export_csv">Exporter en CSV</string>
+    <string name="export_pdf">Exporter en PDF</string>
+    <string name="send_report">Envoyer le rapport</string>
+    <string name="report_period">Période du rapport</string>
+    <string name="last_week">La semaine dernière</string>
+    <string name="last_month">Le mois dernier</string>
+    <string name="last_three_months">3 mois</string>
+    <string name="custom_range">Période personnalisée</string>
+    <string name="start_date">Date de début</string>
+    <string name="end_date">Date de fin</string>
+    <string name="summary">Résumé</string>
+    <string name="total_meals_stat">Total repas</string>
+    <string name="average_per_day">Moy./Jour</string>
+    <string name="days_recorded">Jours enr.</string>
+    <string name="meal_type_breakdown">Répartition par type de repas</string>
+    <string name="meals_per_child">Repas par enfant</string>
+    <string name="meal_count">%1$d repas</string>
+    <string name="insights">Observations</string>
+    <string name="export_and_share">Exporter et partager</string>
+    <string name="share">Partager</string>
+    <string name="select_period_to_generate">Sélectionnez une période pour générer le rapport</string>
+    <string name="no_meals_for_period">Aucun repas enregistré pour cette période</string>
+    <string name="start_logging_to_see_reports">Commencez à enregistrer des repas pour voir les rapports</string>
+    <string name="enter_emails_instruction">Entrez les adresses e-mail (séparées par des virgules) :</string>
+    <string name="email_placeholder">parent@email.com</string>
+    <string name="send">Envoyer</string>
+    <string name="meal_frequency">Fréquence des repas</string>
+    <string name="nutrition_insights">Aperçu nutritionnel</string>
+    <string name="recommendations">Recommandations</string>
+
+    <!-- Notifications -->
+    <string name="meal_reminder">Rappel de repas</string>
+    <string name="reminder_title">C\'est l\'heure de noter les repas !</string>
+    <string name="reminder_message">N\'oubliez pas de noter les repas pour les enfants dont vous vous occupez.</string>
+    <string name="notification_channel_name">Rappels de repas</string>
+    <string name="notification_channel_description">Rappels pour enregistrer les repas des enfants</string>
+
+    <!-- Settings -->
+    <string name="notification_settings">Paramètres de notification</string>
+    <string name="enable_reminders">Activer les rappels de repas</string>
+    <string name="reminder_time">Heure de rappel</string>
+    <string name="breakfast_reminder">Rappel petit-déjeuner</string>
+    <string name="lunch_reminder">Rappel déjeuner</string>
+    <string name="dinner_reminder">Rappel dîner</string>
+    <string name="snack_reminder">Rappel collation</string>
+    <string name="notifications_off_warning">Activez les notifications dans les paramètres pour recevoir les rappels de repas</string>
+    <string name="google_drive_backup">Sauvegarde Google Drive</string>
+    <string name="connect_google_drive">Connecter Google Drive</string>
+    <string name="backup_data_description">Sauvegardez vos données sur Google Drive</string>
+    <string name="connect">Connecter</string>
+    <string name="google_drive_account">Compte Google Drive</string>
+    <string name="disconnect">Déconnecter</string>
+    <string name="last_backup">Dernière sauvegarde</string>
+    <string name="backup_now">Sauvegarder maintenant</string>
+    <string name="backup_db_description">Enregistrer la base de données sur Google Drive</string>
+    <string name="restore_from_backup">Restaurer depuis la sauvegarde</string>
+    <string name="restore_db_description">Remplacer les données locales par la sauvegarde</string>
+    <string name="restore_confirmation_title">Restaurer la sauvegarde</string>
+    <string name="restore_confirmation_text">Cette action remplacera toutes les données locales par celles de la sauvegarde. Cette opération est irréversible. Êtes-vous sûr ?</string>
+    <string name="restore">Restaurer</string>
+    <string name="about">À propos</string>
+    <string name="version">Version</string>
+    <string name="privacy_policy">Politique de confidentialité</string>
+    <string name="time">Heure</string>
+    <string name="select_time_title">Sélectionner l\'heure</string>
+
+    <!-- Common -->
+    <string name="save">Enregistrer</string>
+    <string name="update">Mettre à jour</string>
+    <string name="cancel">Annuler</string>
+    <string name="delete">Supprimer</string>
+    <string name="edit">Modifier</string>
+    <string name="ok">OK</string>
+    <string name="back">Retour</string>
+    <string name="close">Fermer</string>
+    <string name="remove">Retirer</string>
+    <string name="error">Erreur</string>
+    <string name="loading">Chargement…</string>
+    <string name="no_data">Aucune donnée disponible</string>
+    <string name="no_children_added">Aucun enfant ajouté</string>
+    <string name="quick_actions">Actions rapides</string>
+    <string name="see_all">Tout voir</string>
+    <string name="success">Succès</string>
+
+    <!-- Calendar -->
+    <string name="calendar_view">Vue calendrier</string>
+    <string name="today">Aujourd\'hui</string>
+    <string name="no_meals_logged">Aucun repas enregistré pour cette date</string>
+    <string name="change_view">Changer de vue</string>
+    <string name="previous_month">Mois précédent</string>
+    <string name="next_month">Mois suivant</string>
+    <string name="share_on_facebook">Partager sur Facebook</string>
+    <string name="share_meals">Partager les repas</string>
+    <string name="delete_meal_question">Êtes-vous sûr de vouloir supprimer cette entrée de %1$s ?</string>
+    <string name="share_error">Impossible de partager. Veuillez réessayer.</string>
+    <string name="tap_to_add_meal">Appuyez sur + pour ajouter un repas pour ce jour</string>
+    <string name="yesterday">Hier</string>
+    <string name="share_intro">Le %1$s chez Nanny, on a mangé :</string>
+    <string name="share_intro_today">Aujourd\'hui chez Nanny, on a mangé :</string>
+    <string name="share_intro_yesterday">Hier chez Nanny, on a mangé :</string>
+    <string name="error_delete_meal">Échec de la suppression du repas</string>
+    <string name="error_generate_report">Échec de la génération du rapport</string>
+    <string name="error_export_csv">L\'export CSV a échoué : %1$s</string>
+
+    <!-- CSV Report Strings -->
+    <string name="csv_title">Rapport NannyMeals</string>
+    <string name="csv_period">Période : du %1$s au %2$s</string>
+    <string name="csv_summary">Résumé</string>
+    <string name="csv_total_meals">Total des repas</string>
+    <string name="csv_avg_meals_per_day">Moyenne de repas par jour</string>
+    <string name="csv_meal_types">Répartition par type de repas</string>
+    <string name="csv_type_header">Type,Nombre</string>
+    <string name="csv_daily_breakdown">Repas quotidiens</string>
+    <string name="csv_date_header">Date,Nombre</string>
+    <string name="csv_per_child">Repas par enfant</string>
+    <string name="csv_child_header">Enfant,Nombre</string>
+    <string name="csv_insights">Observations</string>
+    <string name="csv_recommendations">Recommandations</string>
+
+    <string name="share_report_title">Partager le rapport</string>
+    <string name="email_report_subject">Rapport de repas : %1$s - %2$s</string>
+    <string name="email_report_greeting">Bonjour,</string>
+    <string name="email_report_body">Veuillez trouver ci-joint le rapport des repas pour la période du %1$s au %2$s.</string>
+    <string name="email_report_summary_header">Résumé :</string>
+    <string name="email_report_total_meals">- Total des repas enregistrés : %1$d</string>
+    <string name="email_report_avg_meals">- Moyenne de repas par jour : %1$.1f</string>
+    <string name="email_report_closing">Cordialement,\nNannyMeals</string>
+    <string name="send_email_title">Envoyer par e-mail</string>
+
+    <!-- Errors -->
+    <string name="error_email_required">L\'e-mail est requis</string>
+    <string name="error_password_required">Le mot de passe est requis</string>
+    <string name="error_password_mismatch">Les mots de passe ne correspondent pas</string>
+    <string name="error_weak_password">Le mot de passe doit contenir au moins 6 caractères</string>
+    <string name="error_invalid_email">Format d\'e-mail invalide</string>
+    <string name="error_login_failed">Échec de la connexion. Veuillez réessayer.</string>
+    <string name="error_registration_failed">Échec de l\'inscription. Veuillez réessayer.</string>
+    <string name="error_child_name_required">Le nom de l\'enfant est requis</string>
+    <string name="error_meal_type_required">Veuillez sélectionner un type de repas</string>
+    <string name="error_select_child">Veuillez sélectionner au moins un enfant</string>
+
+    <!-- Food Categories -->
+    <string name="category_protein">Protéine</string>
+    <string name="category_grain">Céréale/Féculent</string>
+    <string name="category_vegetable">Légume</string>
+    <string name="category_fruit">Fruit</string>
+    <string name="category_dairy">Produit laitier</string>
+    <string name="category_drink">Boisson</string>
+    <string name="category_snack">Collation</string>
+    <string name="category_other">Autre</string>
+
+    <!-- Default Food Items -->
+    <string name="food_chicken">Poulet</string>
+    <string name="food_beef">Bœuf</string>
+    <string name="food_fish">Poisson</string>
+    <string name="food_turkey">Dinde</string>
+    <string name="food_pork">Porc</string>
+    <string name="food_eggs">Œufs</string>
+    <string name="food_tofu">Tofu</string>
+    <string name="food_beans">Haricots</string>
+    <string name="food_lentils">Lentilles</string>
+    <string name="food_cheese">Fromage</string>
+    <string name="food_rice">Riz</string>
+    <string name="food_pasta">Pâtes</string>
+    <string name="food_bread">Pain</string>
+    <string name="food_cereal">Céréales</string>
+    <string name="food_oatmeal">Flocons d\'avoine</string>
+    <string name="food_pancakes">Pancakes</string>
+    <string name="food_toast">Toast</string>
+    <string name="food_crackers">Biscuits salés</string>
+    <string name="food_tortilla">Tortilla</string>
+    <string name="food_noodles">Nouilles</string>
+    <string name="food_carrots">Carottes</string>
+    <string name="food_broccoli">Brocoli</string>
+    <string name="food_peas">Petits pois</string>
+    <string name="food_green_beans">Haricots verts</string>
+    <string name="food_corn">Maïs</string>
+    <string name="food_sweet_potato">Patate douce</string>
+    <string name="food_potato">Pomme de terre</string>
+    <string name="food_tomato">Tomate</string>
+    <string name="food_cucumber">Concombre</string>
+    <string name="food_spinach">Épinards</string>
+    <string name="food_apple">Pomme</string>
+    <string name="food_banana">Banane</string>
+    <string name="food_orange">Orange</string>
+    <string name="food_grapes">Raisins</string>
+    <string name="food_strawberries">Fraises</string>
+    <string name="food_blueberries">Myrtilles</string>
+    <string name="food_watermelon">Pastèque</string>
+    <string name="food_pear">Poire</string>
+    <string name="food_peach">Pêche</string>
+    <string name="food_mango">Mangue</string>
+    <string name="food_milk">Lait</string>
+    <string name="food_yogurt">Yaourt</string>
+    <string name="food_cottage_cheese">Fromage frais</string>
+    <string name="food_water">Eau</string>
+    <string name="food_fruit_juice">Jus de fruit</string>
+    <string name="food_smoothie">Smoothie</string>
+    <string name="food_applesauce">Compote de pommes</string>
+    <string name="food_granola_bar">Barre de céréales</string>
+    <string name="food_cookies">Biscuits</string>
+    <string name="food_pretzels">Pretzels</string>
+    <string name="food_cheese_stick">Bâtonnet de fromage</string>
+</resources>

@@ -4,7 +4,6 @@ package com.nannymeals.app.ui.reports
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Info
@@ -13,10 +12,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.nannymeals.app.data.entity.MealType
+import com.nannymeals.app.R
+import com.nannymeals.app.domain.model.MealType
 import com.nannymeals.app.domain.model.MealReport
 import com.nannymeals.app.domain.model.ReportPeriod
 import com.nannymeals.app.ui.theme.*
@@ -42,7 +43,7 @@ fun ReportsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Rapports") },
+                title = { Text(stringResource(R.string.reports)) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
@@ -161,8 +162,7 @@ fun ReportsScreen(
                                 color = MaterialTheme.colorScheme.onErrorContainer
                             )
                             TextButton(onClick = viewModel::clearError) {
-                                Text("Fermer")
-                            }
+                                Text(stringResource(R.string.close))
                             }
                         }
                     }
@@ -188,12 +188,12 @@ fun ReportsScreen(
                             }
                         }
                     ) {
-                        Text("OK")
+                        Text(stringResource(R.string.ok))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = viewModel::dismissStartDatePicker) {
-                        Text("Annuler")
+                        Text(stringResource(R.string.cancel))
                     }
                 }
             ) {
@@ -218,12 +218,12 @@ fun ReportsScreen(
                             }
                         }
                     ) {
-                        Text("OK")
+                        Text(stringResource(R.string.ok))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = viewModel::dismissEndDatePicker) {
-                        Text("Annuler")
+                        Text(stringResource(R.string.cancel))
                     }
                 }
             ) {
@@ -237,15 +237,15 @@ fun ReportsScreen(
             
             AlertDialog(
                 onDismissRequest = { showEmailDialog = false },
-                title = { Text("Envoyer le rapport") },
+                title = { Text(stringResource(R.string.send_report)) },
                 text = {
                     Column {
-                        Text("Entrez les adresses e-mail (séparées par des virgules) :")
+                        Text(stringResource(R.string.enter_emails_instruction))
                         Spacer(modifier = Modifier.height(8.dp))
                         OutlinedTextField(
                             value = emailInput,
                             onValueChange = { emailInput = it },
-                            placeholder = { Text("parent@email.com") },
+                            placeholder = { Text(stringResource(R.string.email_placeholder)) },
                             singleLine = true,
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -261,17 +261,18 @@ fun ReportsScreen(
                             showEmailDialog = false
                         }
                     ) {
-                        Text("Envoyer")
+                        Text(stringResource(R.string.send))
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = { showEmailDialog = false }) {
-                        Text("Annuler")
+                        Text(stringResource(R.string.cancel))
                     }
                 }
             )
         }
     }
+}
 
 @Composable
 fun PeriodSelectionCard(
@@ -291,7 +292,7 @@ fun PeriodSelectionCard(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = "Période du rapport",
+                text = stringResource(R.string.report_period),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -305,25 +306,25 @@ fun PeriodSelectionCard(
                 FilterChip(
                     selected = selectedPeriod == ReportPeriod.LAST_WEEK,
                     onClick = { onPeriodSelected(ReportPeriod.LAST_WEEK) },
-                    label = { Text("Semaine") },
+                    label = { Text(stringResource(R.string.last_week)) },
                     modifier = Modifier.weight(1f)
                 )
                 FilterChip(
                     selected = selectedPeriod == ReportPeriod.LAST_MONTH,
                     onClick = { onPeriodSelected(ReportPeriod.LAST_MONTH) },
-                    label = { Text("Mois") },
+                    label = { Text(stringResource(R.string.last_month)) },
                     modifier = Modifier.weight(1f)
                 )
                 FilterChip(
                     selected = selectedPeriod == ReportPeriod.LAST_THREE_MONTHS,
                     onClick = { onPeriodSelected(ReportPeriod.LAST_THREE_MONTHS) },
-                    label = { Text("3 Mois") },
+                    label = { Text(stringResource(R.string.last_three_months)) },
                     modifier = Modifier.weight(1f)
                 )
                 FilterChip(
                     selected = selectedPeriod == ReportPeriod.CUSTOM,
                     onClick = { onPeriodSelected(ReportPeriod.CUSTOM) },
-                    label = { Text("Personnalisé") },
+                    label = { Text(stringResource(R.string.custom_range)) },
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -341,7 +342,7 @@ fun PeriodSelectionCard(
                     ) {
                         Icon(Icons.Default.CalendarMonth, contentDescription = null)
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text(customStartDate?.format(dateFormatter) ?: "Date de début")
+                        Text(customStartDate?.format(dateFormatter) ?: stringResource(R.string.start_date))
                     }
                     
                     OutlinedButton(
@@ -350,7 +351,7 @@ fun PeriodSelectionCard(
                     ) {
                         Icon(Icons.Default.CalendarMonth, contentDescription = null)
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text(customEndDate?.format(dateFormatter) ?: "Date de fin")
+                        Text(customEndDate?.format(dateFormatter) ?: stringResource(R.string.end_date))
                     }
                 }
             }
@@ -368,7 +369,7 @@ fun SummaryCard(report: MealReport) {
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = "Résumé",
+                text = stringResource(R.string.summary),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -381,19 +382,19 @@ fun SummaryCard(report: MealReport) {
             ) {
                 StatItem(
                     value = report.totalMeals.toString(),
-                    label = "Total repas",
+                    label = stringResource(R.string.total_meals_stat),
                     icon = Icons.Default.Restaurant
                 )
                 
                 StatItem(
                     value = String.format("%.1f", report.averageMealsPerDay),
-                    label = "Moy./Jour",
+                    label = stringResource(R.string.average_per_day),
                     icon = Icons.Default.TrendingUp
                 )
                 
                 StatItem(
                     value = report.mealsPerDay.size.toString(),
-                    label = "Jours enr.",
+                    label = stringResource(R.string.days_recorded),
                     icon = Icons.Default.CalendarMonth
                 )
             }
@@ -440,14 +441,14 @@ fun MealTypeBreakdownCard(report: MealReport) {
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = "Répartition par type de repas",
+                text = stringResource(R.string.meal_type_breakdown),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
             
             Spacer(modifier = Modifier.height(16.dp))
             
-            MealType.values().forEach { type ->
+            MealType.entries.forEach { type ->
                 val count = report.mealTypeCounts[type] ?: 0
                 val percentage = if (report.totalMeals > 0) {
                     (count.toFloat() / report.totalMeals * 100)
@@ -459,8 +460,8 @@ fun MealTypeBreakdownCard(report: MealReport) {
                 }
                 
                 val typeName = when (type) {
-                    MealType.LUNCH -> "Déjeuner"
-                    MealType.SNACK -> "Collation"
+                    MealType.LUNCH -> stringResource(R.string.lunch)
+                    MealType.SNACK -> stringResource(R.string.snack)
                 }
                 
                 MealTypeProgressBar(
@@ -490,7 +491,7 @@ fun MealTypeProgressBar(
         ) {
             Text(type, style = MaterialTheme.typography.bodyMedium)
             Text(
-                "$count (${String.format("%.0f", percentage)}%)",
+                stringResource(R.string.meal_count, count) + " (${String.format("%.0f", percentage)}%)",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -517,7 +518,7 @@ fun ChildMealBreakdownCard(report: MealReport) {
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = "Repas par enfant",
+                text = stringResource(R.string.meals_per_child),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -543,7 +544,7 @@ fun ChildMealBreakdownCard(report: MealReport) {
                         Text(child.name, style = MaterialTheme.typography.bodyMedium)
                     }
                     Text(
-                        "$count repas",
+                        stringResource(R.string.meal_count, count),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -570,7 +571,7 @@ fun InsightsCard(insights: List<String>) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Observations",
+                    text = stringResource(R.string.insights),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -611,7 +612,7 @@ fun RecommendationsCard(recommendations: List<String>) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Recommandations",
+                    text = stringResource(R.string.recommendations),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -652,7 +653,7 @@ fun ExportActionsCard(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = "Exporter et partager",
+                text = stringResource(R.string.export_and_share),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
@@ -679,7 +680,7 @@ fun ExportActionsCard(
                 ) {
                     Icon(Icons.Default.Share, contentDescription = null)
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Partager")
+                    Text(stringResource(R.string.share))
                 }
                 
                 OutlinedButton(
@@ -689,7 +690,7 @@ fun ExportActionsCard(
                 ) {
                     Icon(Icons.Default.Email, contentDescription = null)
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("E-mail")
+                    Text(stringResource(R.string.email))
                 }
             }
         }
@@ -715,7 +716,7 @@ fun EmptyReportState() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                "Sélectionnez une période pour générer le rapport",
+                stringResource(R.string.select_period_to_generate),
                 style = MaterialTheme.typography.bodyLarge
             )
         }
@@ -741,11 +742,11 @@ fun NoDataState() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                "Aucun repas enregistré pour cette période",
+                stringResource(R.string.no_meals_for_period),
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
-                "Commencez à enregistrer des repas pour voir les rapports",
+                stringResource(R.string.start_logging_to_see_reports),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

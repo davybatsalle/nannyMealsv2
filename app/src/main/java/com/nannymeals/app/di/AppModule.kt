@@ -127,8 +127,9 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFoodItemRepository(
-        foodItemDao: FoodItemDao
+        foodItemDao: FoodItemDao,
+        @ApplicationContext context: Context
     ): FoodItemRepository {
-        return FoodItemRepositoryImpl(foodItemDao)
+        return FoodItemRepositoryImpl(foodItemDao, context)
     }
 }

@@ -1,5 +1,7 @@
 package com.nannymeals.app.domain.model
 
+import android.content.Context
+import com.nannymeals.app.R
 import java.time.LocalDate
 import java.time.Period
 
@@ -17,8 +19,11 @@ data class Child(
             Period.between(it, LocalDate.now()).years 
         }
     
-    val ageDisplay: String
-        get() = age?.let { "$it ans" } ?: "Âge non spécifié"
+    fun getAgeDisplay(context: Context): String {
+        return age?.let { 
+            context.getString(R.string.age_years, it)
+        } ?: context.getString(R.string.age_not_specified)
+    }
     
     val hasAllergies: Boolean
         get() = allergies.isNotBlank()

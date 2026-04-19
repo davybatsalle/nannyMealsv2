@@ -51,10 +51,10 @@ interface FoodItemDao {
     @Query("SELECT * FROM food_items WHERE userId = :userId AND name = :name LIMIT 1")
     suspend fun getFoodItemByName(userId: String, name: String): FoodItemEntity?
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFoodItem(item: FoodItemEntity): Long
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFoodItems(items: List<FoodItemEntity>)
 
     @Update
@@ -81,6 +81,9 @@ interface FoodItemDao {
         val now = System.currentTimeMillis()
         itemIds.forEach { recordUsage(it, now) }
     }
+
+    @Query("DELETE FROM food_items WHERE userId = :userId AND isDefault = 1")
+    suspend fun deleteDefaultFoodItems(userId: String)
 
     @Query("SELECT COUNT(*) FROM food_items WHERE userId = :userId")
     suspend fun getFoodItemCount(userId: String): Int

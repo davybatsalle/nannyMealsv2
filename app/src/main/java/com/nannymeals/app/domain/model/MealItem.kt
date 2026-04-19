@@ -1,5 +1,7 @@
 package com.nannymeals.app.domain.model
 
+import android.content.Context
+import com.nannymeals.app.R
 import com.nannymeals.app.data.entity.FoodCategory
 
 /**
@@ -12,17 +14,19 @@ data class MealItem(
     val portion: String = "",
     val notes: String = ""
 ) {
-    val categoryDisplay: String
-        get() = when (category) {
-            FoodCategory.PROTEIN -> "Protéine"
-            FoodCategory.GRAIN -> "Céréale/Féculent"
-            FoodCategory.VEGETABLE -> "Légume"
-            FoodCategory.FRUIT -> "Fruit"
-            FoodCategory.DAIRY -> "Produit laitier"
-            FoodCategory.DRINK -> "Boisson"
-            FoodCategory.SNACK -> "Collation"
-            FoodCategory.OTHER -> "Autre"
+    fun getCategoryDisplay(context: Context): String {
+        val resId = when (category) {
+            FoodCategory.PROTEIN -> R.string.category_protein
+            FoodCategory.GRAIN -> R.string.category_grain
+            FoodCategory.VEGETABLE -> R.string.category_vegetable
+            FoodCategory.FRUIT -> R.string.category_fruit
+            FoodCategory.DAIRY -> R.string.category_dairy
+            FoodCategory.DRINK -> R.string.category_drink
+            FoodCategory.SNACK -> R.string.category_snack
+            FoodCategory.OTHER -> R.string.category_other
         }
+        return context.getString(resId)
+    }
 }
 
 /**
@@ -35,15 +39,17 @@ data class FoodItem(
     val usageCount: Int = 0,
     val lastUsedDate: Long? = null
 ) {
-    val categoryDisplay: String
-        get() = when (category) {
-            FoodCategory.PROTEIN -> "Protéine"
-            FoodCategory.GRAIN -> "Céréale/Féculent"
-            FoodCategory.VEGETABLE -> "Légume"
-            FoodCategory.FRUIT -> "Fruit"
-            FoodCategory.DAIRY -> "Produit laitier"
-            FoodCategory.DRINK -> "Boisson"
-            FoodCategory.SNACK -> "Collation"
-            FoodCategory.OTHER -> "Autre"
+    fun getCategoryDisplay(context: Context): String {
+        val resId = when (category) {
+            FoodCategory.PROTEIN -> R.string.category_protein
+            FoodCategory.GRAIN -> R.string.category_grain
+            FoodCategory.VEGETABLE -> R.string.category_vegetable
+            FoodCategory.FRUIT -> R.string.category_fruit
+            FoodCategory.DAIRY -> R.string.category_dairy
+            FoodCategory.DRINK -> R.string.category_drink
+            FoodCategory.SNACK -> R.string.category_snack
+            FoodCategory.OTHER -> R.string.category_other
         }
+        return context.getString(resId)
+    }
 }

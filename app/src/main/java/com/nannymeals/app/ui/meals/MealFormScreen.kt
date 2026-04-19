@@ -17,12 +17,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.res.stringResource
+import com.nannymeals.app.R
 import com.nannymeals.app.data.entity.FoodCategory
-import com.nannymeals.app.data.entity.MealType
+import com.nannymeals.app.domain.model.MealType
 import com.nannymeals.app.domain.model.Child
 import com.nannymeals.app.domain.model.FoodItem
 import com.nannymeals.app.domain.model.MealItem
@@ -54,10 +57,10 @@ fun MealFormScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (viewModel.isEditing) "Modifier le repas" else "Ajouter un repas") },
+                title = { Text(if (viewModel.isEditing) stringResource(R.string.edit_meal) else stringResource(R.string.add_meal)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -87,7 +90,7 @@ fun MealFormScreen(
                 ) {
                     // Date and Time Section
                     Text(
-                        text = "Date et heure",
+                        text = stringResource(R.string.date_and_time),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -100,7 +103,7 @@ fun MealFormScreen(
                         OutlinedTextField(
                             value = uiState.date.format(dateFormatter),
                             onValueChange = { },
-                            label = { Text("Date") },
+                            label = { Text(stringResource(R.string.meal_date)) },
                             leadingIcon = {
                                 Icon(Icons.Default.CalendarMonth, contentDescription = null)
                             },
@@ -115,7 +118,7 @@ fun MealFormScreen(
                         OutlinedTextField(
                             value = uiState.time.format(timeFormatter),
                             onValueChange = { },
-                            label = { Text("Heure") },
+                            label = { Text(stringResource(R.string.meal_time)) },
                             leadingIcon = {
                                 Icon(Icons.Default.Schedule, contentDescription = null)
                             },
@@ -131,7 +134,7 @@ fun MealFormScreen(
                     
                     // Meal Type Section
                     Text(
-                        text = "Type de repas *",
+                        text = stringResource(R.string.meal_type_required_label),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -140,7 +143,7 @@ fun MealFormScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        MealType.values().forEach { mealType ->
+                        MealType.entries.forEach { mealType ->
                             MealTypeChip(
                                 mealType = mealType,
                                 isSelected = uiState.mealType == mealType,
@@ -155,7 +158,7 @@ fun MealFormScreen(
                     
                     // Children Selection Section
                     Text(
-                        text = "Enfants *",
+                        text = stringResource(R.string.children_required_label),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -180,11 +183,11 @@ fun MealFormScreen(
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Text(
-                                    text = "Aucun enfant ajouté",
+                                    text = stringResource(R.string.no_children_added),
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                                 Text(
-                                    text = "Ajoutez d'abord des enfants pour enregistrer les repas",
+                                    text = stringResource(R.string.error_select_child),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -209,7 +212,7 @@ fun MealFormScreen(
                     
                     // ===== MEAL ITEMS SECTION =====
                     Text(
-                        text = "Qu'est-ce qui est servi ?",
+                        text = stringResource(R.string.what_is_served),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -234,13 +237,13 @@ fun MealFormScreen(
                     ) {
                         Icon(Icons.Default.Add, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Ajouter un aliment")
+                        Text(stringResource(R.string.add_food_item))
                     }
                     
                     // Quick add - Frequent items
                     if (frequentItems.isNotEmpty()) {
                         Text(
-                            text = "Fréquemment utilisés",
+                            text = stringResource(R.string.frequently_used),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -266,7 +269,7 @@ fun MealFormScreen(
                     // Variety suggestions
                     if (suggestedItems.isNotEmpty()) {
                         Text(
-                            text = "💡 Essayez quelque chose de différent",
+                            text = stringResource(R.string.try_something_different),
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.secondary
                         )
@@ -296,7 +299,7 @@ fun MealFormScreen(
                     
                     // Notes Section
                     Text(
-                        text = "Notes",
+                        text = stringResource(R.string.meal_notes),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -304,8 +307,8 @@ fun MealFormScreen(
                     OutlinedTextField(
                         value = uiState.notes,
                         onValueChange = viewModel::onNotesChange,
-                        label = { Text("Ajouter des notes (optionnel)") },
-                        placeholder = { Text("Ex: L'enfant a apprécié le repas, restes, etc.") },
+                        label = { Text(stringResource(R.string.add_notes_optional)) },
+                        placeholder = { Text(stringResource(R.string.notes_placeholder)) },
                         leadingIcon = {
                             Icon(Icons.Default.Notes, contentDescription = null)
                         },
@@ -350,7 +353,7 @@ fun MealFormScreen(
                         } else {
                             Icon(Icons.Default.Save, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text(if (viewModel.isEditing) "Mettre à jour" else "Enregistrer")
+                            Text(if (viewModel.isEditing) stringResource(R.string.update) else stringResource(R.string.save))
                         }
                     }
                 }
@@ -373,12 +376,12 @@ fun MealFormScreen(
                                 }
                             }
                         ) {
-                            Text("OK")
+                            Text(stringResource(R.string.ok))
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = viewModel::dismissDatePicker) {
-                            Text("Annuler")
+                            Text(stringResource(R.string.cancel))
                         }
                     }
                 ) {
@@ -398,7 +401,7 @@ fun MealFormScreen(
                 
                 AlertDialog(
                     onDismissRequest = viewModel::dismissTimePicker,
-                    title = { Text("Sélectionner l'heure") },
+                    title = { Text(stringResource(R.string.select_time)) },
                     text = {
                         TimePicker(state = timePickerState)
                     },
@@ -410,12 +413,12 @@ fun MealFormScreen(
                                 )
                             }
                         ) {
-                            Text("OK")
+                            Text(stringResource(R.string.ok))
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = viewModel::dismissTimePicker) {
-                            Text("Annuler")
+                            Text(stringResource(R.string.cancel))
                         }
                     }
                 )
@@ -458,8 +461,8 @@ fun MealTypeChip(
     }
     
     val label = when (mealType) {
-        MealType.LUNCH -> "Déjeuner"
-        MealType.SNACK -> "Collation"
+        MealType.LUNCH -> stringResource(R.string.lunch)
+        MealType.SNACK -> stringResource(R.string.snack)
     }
 
     FilterChip(
@@ -542,7 +545,7 @@ fun ChildSelectionItem(
                             if (child.hasAllergies) {
                                 Icon(
                                     Icons.Default.Warning,
-                                    contentDescription = "A des allergies",
+                                    contentDescription = stringResource(R.string.allergies),
                                     modifier = Modifier.size(16.dp),
                                     tint = MaterialTheme.colorScheme.error
                                 )
@@ -550,7 +553,7 @@ fun ChildSelectionItem(
                             if (child.hasDietaryRestrictions) {
                                 Icon(
                                     Icons.Default.Restaurant,
-                                    contentDescription = "A des restrictions alimentaires",
+                                    contentDescription = stringResource(R.string.dietary_restrictions),
                                     modifier = Modifier.size(16.dp),
                                     tint = MaterialTheme.colorScheme.secondary
                                 )
@@ -561,7 +564,7 @@ fun ChildSelectionItem(
             }
             
             Text(
-                text = child.ageDisplay,
+                text = child.getAgeDisplay(LocalContext.current),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -596,7 +599,7 @@ fun MealItemChip(
             ) {
                 Icon(
                     Icons.Default.Close,
-                    contentDescription = "Retirer",
+                    contentDescription = stringResource(R.string.remove),
                     modifier = Modifier.size(18.dp)
                 )
             }
@@ -620,7 +623,7 @@ fun AddFoodItemDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Ajouter un aliment") },
+        title = { Text(stringResource(R.string.add_food_item)) },
         text = {
             Column(
                 modifier = Modifier
@@ -632,7 +635,7 @@ fun AddFoodItemDialog(
                 OutlinedTextField(
                     value = searchQuery,
                     onValueChange = onSearchQueryChange,
-                    label = { Text("Rechercher des aliments") },
+                    label = { Text(stringResource(R.string.search_food)) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
@@ -641,7 +644,7 @@ fun AddFoodItemDialog(
                 if (showCustomItemForm) {
                     // Custom item form
                     Text(
-                        text = "Ajouter un aliment personnalisé",
+                        text = stringResource(R.string.add_custom_item),
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -649,20 +652,27 @@ fun AddFoodItemDialog(
                     OutlinedTextField(
                         value = customItemName,
                         onValueChange = { customItemName = it },
-                        label = { Text("Nom de l'aliment") },
+                        label = { Text(stringResource(R.string.food_name)) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth()
                     )
                     
-                    Text("Catégorie :", style = MaterialTheme.typography.labelSmall)
+                    Text(stringResource(R.string.category), style = MaterialTheme.typography.labelSmall)
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        items(FoodCategory.values().toList()) { category ->
+                        items(FoodCategory.entries) { category ->
+                            val context = LocalContext.current
                             FilterChip(
                                 selected = selectedCategory == category,
                                 onClick = { selectedCategory = category },
-                                label = { Text(category.name.lowercase().replaceFirstChar { it.uppercase() }) }
+                                label = { 
+                                    // Use a dummy FoodItem to get the localized category name
+                                    val dummyItem = remember(category) { 
+                                        FoodItem(name = "", category = category) 
+                                    }
+                                    Text(dummyItem.getCategoryDisplay(context))
+                                }
                             )
                         }
                     }
@@ -674,7 +684,7 @@ fun AddFoodItemDialog(
                             onClick = { showCustomItemForm = false },
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text("Annuler")
+                            Text(stringResource(R.string.cancel))
                         }
                         Button(
                             onClick = {
@@ -686,14 +696,14 @@ fun AddFoodItemDialog(
                             enabled = customItemName.isNotBlank(),
                             modifier = Modifier.weight(1f)
                         ) {
-                            Text("Ajouter")
+                            Text(stringResource(R.string.add_child))
                         }
                     }
                 } else {
                     // Search results or suggestions
                     if (searchQuery.isNotBlank() && searchResults.isNotEmpty()) {
                         Text(
-                            text = "Résultats de recherche",
+                            text = stringResource(R.string.search_results),
                             style = MaterialTheme.typography.labelMedium
                         )
                         LazyColumn(
@@ -713,7 +723,7 @@ fun AddFoodItemDialog(
                     } else if (searchQuery.isNotBlank() && searchResults.isEmpty()) {
                         // No results, offer to add custom
                         Text(
-                            text = "Aucun aliment trouvé pour \"$searchQuery\"",
+                            text = stringResource(R.string.no_food_found, searchQuery),
                             style = MaterialTheme.typography.bodyMedium
                         )
                         TextButton(
@@ -724,13 +734,13 @@ fun AddFoodItemDialog(
                         ) {
                             Icon(Icons.Default.Add, contentDescription = null)
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("Ajouter \"$searchQuery\" comme nouvel aliment")
+                            Text(stringResource(R.string.add_as_new_food, searchQuery))
                         }
                     } else {
                         // Show frequent items
                         if (frequentItems.isNotEmpty()) {
                             Text(
-                                text = "Ajout rapide",
+                                text = stringResource(R.string.quick_add),
                                 style = MaterialTheme.typography.labelMedium
                             )
                             LazyColumn(
@@ -756,7 +766,7 @@ fun AddFoodItemDialog(
                     ) {
                         Icon(Icons.Default.Add, contentDescription = null)
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text("Ajouter un aliment personnalisé")
+                        Text(stringResource(R.string.add_custom_item))
                     }
                 }
             }
@@ -764,7 +774,7 @@ fun AddFoodItemDialog(
         confirmButton = { },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Fermer")
+                Text(stringResource(R.string.close))
             }
         }
     )
@@ -806,7 +816,7 @@ fun FoodItemRow(
                 )
             }
             Text(
-                text = item.categoryDisplay,
+                text = item.getCategoryDisplay(LocalContext.current),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

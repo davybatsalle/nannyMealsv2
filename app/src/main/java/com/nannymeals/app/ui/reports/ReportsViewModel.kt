@@ -6,7 +6,8 @@ import android.net.Uri
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nannymeals.app.data.entity.MealType
+import com.nannymeals.app.R
+import com.nannymeals.app.domain.model.MealType
 import com.nannymeals.app.domain.model.MealReport
 import com.nannymeals.app.domain.model.ReportPeriod
 import com.nannymeals.app.domain.repository.MealRepository
@@ -93,7 +94,7 @@ class ReportsViewModel @Inject constructor(
         _uiState.update { it.copy(showEndDatePicker = false) }
     }
 
-    fun generateReport() {
+    fun generateReport(context: Context? = null) {
         val state = _uiState.value
         val (startDate, endDate) = getDateRange(state)
         
@@ -111,7 +112,7 @@ class ReportsViewModel @Inject constructor(
                 _uiState.update { 
                     it.copy(
                         isLoading = false, 
-                        error = e.message ?: "Échec de la génération du rapport"
+                        error = e.message ?: context?.getString(R.string.error_generate_report) ?: "Error"
                     ) 
                 }
             }
@@ -142,7 +143,7 @@ class ReportsViewModel @Inject constructor(
                 _uiState.update { it.copy(exportedFileUri = uri) }
             } catch (e: Exception) {
                 _uiState.update { 
-                    it.copy(error = "Échec de l'export CSV : ${e.message}") 
+                    it.copy(error = context.getString(R.string.error_export_csv, e.message ?: "")) 
                 }
             }
         }
@@ -158,48 +159,52 @@ class ReportsViewModel @Inject constructor(
         
         FileWriter(file).use { writer ->
             // Header
-            writer.append("Rapport NannyMeals\n")
-            writer.append("Période: ${report.startDate.format(dateFormatter)} au ${report.endDate.format(dateFormatter)}\n\n")
+            writer.append("${context.getString(R.string.csv_title)}\n")
+            writer.append("${context.getString(R.string.csv_period, report.startDate.format(dateFormatter), report.endDate.format(dateFormatter))}\n\n")
             
             // Summary
-            writer.append("Résumé\n")
-            writer.append("Total des repas,${report.totalMeals}\n")
-            writer.append("Moyenne de repas par jour,${String.format("%.1f", report.averageMealsPerDay)}\n\n")
+            writer.append("${context.getString(R.string.csv_summary)}\n")
+            writer.append("${context.getString(R.string.csv_total_meals)},${report.totalMeals}\n")
+            writer.append("${context.getString(R.string.csv_avg_meals_per_day)},${String.format("%.1f", report.averageMealsPerDay)}\n\n")
             
             // Meal Types
-            writer.append("Répartition par type de repas\n")
-            writer.append("Type,Nombre\n")
-            MealType.values().forEach { type ->
+            writer.append("${context.getString(R.string.csv_meal_types)}\n")
+            writer.append("${context.getString(R.string.csv_type_header)}\n")
+            MealType.entries.forEach { type ->
                 val count = report.mealTypeCounts[type] ?: 0
-                writer.append("${type.name},${count}\n")
+                val typeName = when (type) {
+                    MealType.LUNCH -> context.getString(R.string.lunch)
+                    MealType.SNACK -> context.getString(R.string.snack)
+                }
+                writer.append("$typeName,${count}\n")
             }
             writer.append("\n")
             
             // Daily Breakdown
-            writer.append("Repas quotidiens\n")
-            writer.append("Date,Nombre\n")
+            writer.append("${context.getString(R.string.csv_daily_breakdown)}\n")
+            writer.append("${context.getString(R.string.csv_date_header)}\n")
             report.mealsPerDay.forEach { (date, count) ->
                 writer.append("${date.format(dateFormatter)},${count}\n")
             }
             writer.append("\n")
             
             // Per Child
-            writer.append("Repas par enfant\n")
-            writer.append("Enfant,Nombre\n")
+            writer.append("${context.getString(R.string.csv_per_child)}\n")
+            writer.append("${context.getString(R.string.csv_child_header)}\n")
             report.childMealCounts.forEach { (child, count) ->
                 writer.append("${child.name},${count}\n")
             }
             writer.append("\n")
             
             // Insights
-            writer.append("Observations\n")
+            writer.append("${context.getString(R.string.csv_insights)}\n")
             report.insights.forEach { insight ->
                 writer.append("$insight\n")
             }
             writer.append("\n")
             
             // Recommendations
-            writer.append("Recommandations\n")
+            writer.append("${context.getString(R.string.csv_recommendations)}\n")
             report.recommendations.forEach { rec ->
                 writer.append("$rec\n")
             }
@@ -214,11 +219,11 @@ class ReportsViewModel @Inject constructor(
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/csv"
             putExtra(Intent.EXTRA_STREAM, uri)
-            putExtra(Intent.EXTRA_SUBJECT, "Rapport NannyMeals")
+            putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.csv_title))
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
         
-        context.startActivity(Intent.createChooser(intent, "Partager le rapport"))
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_report_title)))
     }
 
     fun sendReportByEmail(context: Context, emails: List<String>) {
@@ -226,18 +231,25 @@ class ReportsViewModel @Inject constructor(
         val report = _uiState.value.report ?: return
         
         val dateFormatter = DateTimeFormatter.ofPattern("MMM dd, yyyy")
-        val subject = "Rapport de repas : ${report.startDate.format(dateFormatter)} - ${report.endDate.format(dateFormatter)}"
+        val subject = context.getString(
+            R.string.email_report_subject, 
+            report.startDate.format(dateFormatter), 
+            report.endDate.format(dateFormatter)
+        )
         val body = buildString {
-            appendLine("Bonjour,")
+            appendLine(context.getString(R.string.email_report_greeting))
             appendLine()
-            appendLine("Veuillez trouver ci-joint le rapport des repas pour la période du ${report.startDate.format(dateFormatter)} au ${report.endDate.format(dateFormatter)}.")
+            appendLine(context.getString(
+                R.string.email_report_body, 
+                report.startDate.format(dateFormatter), 
+                report.endDate.format(dateFormatter)
+            ))
             appendLine()
-            appendLine("Résumé :")
-            appendLine("- Total des repas enregistrés : ${report.totalMeals}")
-            appendLine("- Moyenne de repas par jour : ${String.format("%.1f", report.averageMealsPerDay)}")
+            appendLine(context.getString(R.string.email_report_summary_header))
+            appendLine(context.getString(R.string.email_report_total_meals, report.totalMeals))
+            appendLine(context.getString(R.string.email_report_avg_meals, report.averageMealsPerDay))
             appendLine()
-            appendLine("Cordialement,")
-            appendLine("NannyMeals")
+            appendLine(context.getString(R.string.email_report_closing))
         }
         
         val intent = Intent(Intent.ACTION_SEND).apply {
@@ -249,7 +261,7 @@ class ReportsViewModel @Inject constructor(
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
         
-        context.startActivity(Intent.createChooser(intent, "Envoyer par e-mail"))
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.send_email_title)))
     }
 
     fun clearExportedFile() {

@@ -2,14 +2,16 @@ package com.nannymeals.app.data.repository
 
 import com.nannymeals.app.data.dao.ChildDao
 import com.nannymeals.app.data.dao.MealDao
-import com.nannymeals.app.data.entity.MealType
+import com.nannymeals.app.data.entity.MealType as DataMealType
 import com.nannymeals.app.data.mapper.toChild
+import com.nannymeals.app.data.mapper.toDomain
 import com.nannymeals.app.data.mapper.toEntity
 import com.nannymeals.app.data.mapper.toMeal
 import com.nannymeals.app.domain.model.Child
 import com.nannymeals.app.domain.model.Meal
 import com.nannymeals.app.domain.model.MealItem
 import com.nannymeals.app.domain.model.MealReport
+import com.nannymeals.app.domain.model.MealType as DomainMealType
 import com.nannymeals.app.domain.repository.MealRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -91,7 +93,7 @@ class MealRepositoryImpl @Inject constructor(
             startDate = startDate,
             endDate = endDate,
             totalMeals = totalMeals,
-            mealTypeCounts = mealTypeCounts.associate { it.mealType to it.count },
+            mealTypeCounts = mealTypeCounts.associate { it.mealType.toDomain() to it.count },
             mealsPerDay = mealsPerDay.associate { it.date to it.count },
             childMealCounts = childMealCounts,
             insights = insights,
@@ -123,8 +125,8 @@ class MealRepositoryImpl @Inject constructor(
         val mostCommon = mealTypeCounts.maxByOrNull { it.count }
         mostCommon?.let {
             val typeName = when(it.mealType) {
-                MealType.LUNCH -> "Déjeuner"
-                MealType.SNACK -> "Collation"
+                DataMealType.LUNCH -> "Déjeuner"
+                DataMealType.SNACK -> "Collation"
             }
             insights.add("$typeName est le type de repas le plus fréquemment enregistré (${it.count} fois).")
         }
@@ -153,12 +155,12 @@ class MealRepositoryImpl @Inject constructor(
 
         // Check for missing meal types
         val loggedTypes = mealTypeCounts.map { it.mealType }.toSet()
-        val missingTypes = MealType.values().toSet() - loggedTypes
+        val missingTypes = DataMealType.entries.toSet() - loggedTypes
         if (missingTypes.isNotEmpty()) {
             val missingNames = missingTypes.joinToString(", ") { type ->
                 when(type) {
-                    MealType.LUNCH -> "déjeuner"
-                    MealType.SNACK -> "collation"
+                    DataMealType.LUNCH -> "déjeuner"
+                    DataMealType.SNACK -> "collation"
                 }
             }
             recommendations.add("Pensez à enregistrer les repas de type $missingNames pour un meilleur suivi.")
@@ -166,8 +168,8 @@ class MealRepositoryImpl @Inject constructor(
 
         // Check meal balance
         if (mealTypeCounts.isNotEmpty()) {
-            val snackCount = mealTypeCounts.find { it.mealType == MealType.SNACK }?.count ?: 0
-            val mainMealCount = mealTypeCounts.filter { it.mealType != MealType.SNACK }.sumOf { it.count }
+            val snackCount = mealTypeCounts.find { it.mealType == DataMealType.SNACK }?.count ?: 0
+            val mainMealCount = mealTypeCounts.filter { it.mealType != DataMealType.SNACK }.sumOf { it.count }
             if (snackCount > mainMealCount) {
                 recommendations.add("Il y a plus de collations que de repas principaux. Pensez à équilibrer avec plus d'entrées de petit-déjeuner, déjeuner ou dîner.")
             }

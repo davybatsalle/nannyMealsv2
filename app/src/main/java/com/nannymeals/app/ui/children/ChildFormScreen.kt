@@ -17,6 +17,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.res.stringResource
+import com.nannymeals.app.R
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -39,10 +41,10 @@ fun ChildFormScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(if (viewModel.isEditing) "Modifier l'enfant" else "Ajouter un enfant") },
+                title = { Text(if (viewModel.isEditing) stringResource(R.string.edit_child) else stringResource(R.string.add_child)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -72,7 +74,7 @@ fun ChildFormScreen(
                 ) {
                     // Child Information Section
                     Text(
-                        text = "Informations de l'enfant",
+                        text = stringResource(R.string.child_info),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -80,7 +82,7 @@ fun ChildFormScreen(
                     OutlinedTextField(
                         value = uiState.name,
                         onValueChange = viewModel::onNameChange,
-                        label = { Text("Nom *") },
+                        label = { Text(stringResource(R.string.child_name_required)) },
                         leadingIcon = {
                             Icon(Icons.Default.Person, contentDescription = null)
                         },
@@ -97,13 +99,13 @@ fun ChildFormScreen(
                     OutlinedTextField(
                         value = uiState.dateOfBirth?.format(dateFormatter) ?: "",
                         onValueChange = { },
-                        label = { Text("Date de naissance") },
+                        label = { Text(stringResource(R.string.date_of_birth)) },
                         leadingIcon = {
                             Icon(Icons.Default.CalendarMonth, contentDescription = null)
                         },
                         trailingIcon = {
                             IconButton(onClick = viewModel::showDatePicker) {
-                                Icon(Icons.Default.DateRange, contentDescription = "Sélectionner la date")
+                                Icon(Icons.Default.DateRange, contentDescription = stringResource(R.string.select_date))
                             }
                         },
                         readOnly = true,
@@ -115,7 +117,7 @@ fun ChildFormScreen(
                     
                     // Health Information Section
                     Text(
-                        text = "Informations de santé",
+                        text = stringResource(R.string.health_info),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -123,12 +125,12 @@ fun ChildFormScreen(
                     OutlinedTextField(
                         value = uiState.allergies,
                         onValueChange = viewModel::onAllergiesChange,
-                        label = { Text("Allergies") },
+                        label = { Text(stringResource(R.string.allergies)) },
                         leadingIcon = {
                             Icon(Icons.Default.Warning, contentDescription = null)
                         },
-                        supportingText = { Text("Séparez les allergies par des virgules") },
-                        placeholder = { Text("Ex: Arachides, Produits laitiers, Œufs") },
+                        supportingText = { Text(stringResource(R.string.allergies_hint)) },
+                        placeholder = { Text(stringResource(R.string.allergies_label)) },
                         singleLine = false,
                         maxLines = 3,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -139,12 +141,12 @@ fun ChildFormScreen(
                     OutlinedTextField(
                         value = uiState.dietaryRestrictions,
                         onValueChange = viewModel::onDietaryRestrictionsChange,
-                        label = { Text("Restrictions alimentaires") },
+                        label = { Text(stringResource(R.string.dietary_restrictions)) },
                         leadingIcon = {
                             Icon(Icons.Default.Restaurant, contentDescription = null)
                         },
-                        supportingText = { Text("Séparez les restrictions par des virgules") },
-                        placeholder = { Text("Ex: Végétarien, Halal, Sans gluten") },
+                        supportingText = { Text(stringResource(R.string.dietary_restrictions_hint)) },
+                        placeholder = { Text(stringResource(R.string.dietary_restrictions_label)) },
                         singleLine = false,
                         maxLines = 3,
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -156,7 +158,7 @@ fun ChildFormScreen(
                     
                     // Parent Information Section
                     Text(
-                        text = "Informations du parent/tuteur",
+                        text = stringResource(R.string.parent_info),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -164,7 +166,7 @@ fun ChildFormScreen(
                     OutlinedTextField(
                         value = uiState.parentName,
                         onValueChange = viewModel::onParentNameChange,
-                        label = { Text("Nom du parent/tuteur") },
+                        label = { Text(stringResource(R.string.parent_name)) },
                         leadingIcon = {
                             Icon(Icons.Default.Person, contentDescription = null)
                         },
@@ -180,11 +182,11 @@ fun ChildFormScreen(
                     OutlinedTextField(
                         value = uiState.parentEmail,
                         onValueChange = viewModel::onParentEmailChange,
-                        label = { Text("E-mail du parent/tuteur") },
+                        label = { Text(stringResource(R.string.parent_email)) },
                         leadingIcon = {
                             Icon(Icons.Default.Email, contentDescription = null)
                         },
-                        supportingText = { Text("Pour envoyer les rapports de repas") },
+                        supportingText = { Text(stringResource(R.string.parent_email_description)) },
                         singleLine = true,
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Email,
@@ -235,7 +237,7 @@ fun ChildFormScreen(
                         } else {
                             Icon(Icons.Default.Save, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text(if (viewModel.isEditing) "Mettre à jour" else "Ajouter l'enfant")
+                            Text(if (viewModel.isEditing) stringResource(R.string.update) else stringResource(R.string.add_child))
                         }
                     }
                 }
@@ -258,12 +260,12 @@ fun ChildFormScreen(
                                 }
                             }
                         ) {
-                            Text("OK")
+                            Text(stringResource(R.string.ok))
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = viewModel::dismissDatePicker) {
-                            Text("Annuler")
+                            Text(stringResource(R.string.cancel))
                         }
                     }
                 ) {

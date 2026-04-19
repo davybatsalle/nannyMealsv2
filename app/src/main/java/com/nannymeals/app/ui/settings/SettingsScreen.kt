@@ -15,8 +15,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.nannymeals.app.R
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -53,7 +55,7 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Paramètres") },
+                title = { Text(stringResource(R.string.settings)) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
@@ -68,7 +70,7 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             // Notifications Section
-            SettingsSection(title = "Rappels de repas") {
+            SettingsSection(title = stringResource(R.string.meal_reminder)) {
                 if (!hasNotificationPermission && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
@@ -89,7 +91,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.width(12.dp))
                             Text(
-                                "Activez les notifications dans les paramètres pour recevoir les rappels de repas",
+                                stringResource(R.string.notifications_off_warning),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onErrorContainer
                             )
@@ -100,7 +102,7 @@ fun SettingsScreen(
 
                 // Lunch Reminder
                 ReminderSettingItem(
-                    title = "Rappel déjeuner",
+                    title = stringResource(R.string.lunch_reminder),
                     icon = Icons.Default.LunchDining,
                     isEnabled = reminderSettings.lunchEnabled,
                     time = LocalTime.of(reminderSettings.lunchHour, reminderSettings.lunchMinute),
@@ -111,7 +113,7 @@ fun SettingsScreen(
 
                 // Snack Reminder
                 ReminderSettingItem(
-                    title = "Rappel collation",
+                    title = stringResource(R.string.snack_reminder),
                     icon = Icons.Default.Cookie,
                     isEnabled = reminderSettings.snackEnabled,
                     time = LocalTime.of(reminderSettings.snackHour, reminderSettings.snackMinute),
@@ -122,12 +124,12 @@ fun SettingsScreen(
             }
 
             // Google Drive Backup Section
-            SettingsSection(title = "Sauvegarde Google Drive") {
+            SettingsSection(title = stringResource(R.string.google_drive_backup)) {
                 if (!uiState.isSignedInToDrive) {
                     // Not signed in - show connect button
                     ListItem(
-                        headlineContent = { Text("Connecter Google Drive") },
-                        supportingContent = { Text("Sauvegardez vos données sur Google Drive") },
+                        headlineContent = { Text(stringResource(R.string.connect_google_drive)) },
+                        supportingContent = { Text(stringResource(R.string.backup_data_description)) },
                         leadingContent = {
                             Icon(Icons.Default.CloudUpload, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                         },
@@ -135,21 +137,21 @@ fun SettingsScreen(
                             Button(
                                 onClick = { googleSignInLauncher.launch(viewModel.getGoogleSignInIntent()) }
                             ) {
-                                Text("Connecter")
+                                Text(stringResource(R.string.connect))
                             }
                         }
                     )
                 } else {
                     // Signed in - show backup options
                     ListItem(
-                        headlineContent = { Text("Compte Google Drive") },
+                        headlineContent = { Text(stringResource(R.string.google_drive_account)) },
                         supportingContent = { Text(uiState.driveAccountEmail ?: "") },
                         leadingContent = {
                             Icon(Icons.Default.Cloud, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                         },
                         trailingContent = {
                             TextButton(onClick = viewModel::signOutFromDrive) {
-                                Text("Déconnecter")
+                                Text(stringResource(R.string.disconnect))
                             }
                         }
                     )
@@ -159,7 +161,7 @@ fun SettingsScreen(
                     // Last backup info
                     if (uiState.backupInfo != null) {
                         ListItem(
-                            headlineContent = { Text("Dernière sauvegarde") },
+                            headlineContent = { Text(stringResource(R.string.last_backup)) },
                             supportingContent = { 
                                 Text("${uiState.backupInfo!!.formattedTime} (${uiState.backupInfo!!.formattedSize})") 
                             },
@@ -172,8 +174,8 @@ fun SettingsScreen(
 
                     // Backup button
                     ListItem(
-                        headlineContent = { Text("Sauvegarder maintenant") },
-                        supportingContent = { Text("Enregistrer la base de données sur Google Drive") },
+                        headlineContent = { Text(stringResource(R.string.backup_now)) },
+                        supportingContent = { Text(stringResource(R.string.backup_db_description)) },
                         leadingContent = {
                             Icon(Icons.Default.Backup, contentDescription = null)
                         },
@@ -182,7 +184,7 @@ fun SettingsScreen(
                                 CircularProgressIndicator(modifier = Modifier.size(24.dp))
                             } else {
                                 IconButton(onClick = viewModel::backupToGoogleDrive) {
-                                    Icon(Icons.Default.Upload, contentDescription = "Sauvegarder")
+                                    Icon(Icons.Default.Upload, contentDescription = stringResource(R.string.backup_now))
                                 }
                             }
                         },
@@ -196,8 +198,8 @@ fun SettingsScreen(
 
                     // Restore button
                     ListItem(
-                        headlineContent = { Text("Restaurer depuis la sauvegarde") },
-                        supportingContent = { Text("Remplacer les données locales par la sauvegarde") },
+                        headlineContent = { Text(stringResource(R.string.restore_from_backup)) },
+                        supportingContent = { Text(stringResource(R.string.restore_db_description)) },
                         leadingContent = {
                             Icon(Icons.Default.Restore, contentDescription = null)
                         },
@@ -209,7 +211,7 @@ fun SettingsScreen(
                                     onClick = viewModel::showRestoreConfirmation,
                                     enabled = uiState.backupInfo != null
                                 ) {
-                                    Icon(Icons.Default.Download, contentDescription = "Restaurer")
+                                    Icon(Icons.Default.Download, contentDescription = stringResource(R.string.restore))
                                 }
                             }
                         },
@@ -244,7 +246,7 @@ fun SettingsScreen(
                             Text(message, style = MaterialTheme.typography.bodySmall)
                             Spacer(modifier = Modifier.weight(1f))
                             IconButton(onClick = viewModel::clearBackupMessage) {
-                                Icon(Icons.Default.Close, contentDescription = "Fermer", modifier = Modifier.size(16.dp))
+                                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.close), modifier = Modifier.size(16.dp))
                             }
                         }
                     }
@@ -277,7 +279,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.weight(1f))
                             IconButton(onClick = viewModel::clearBackupMessage) {
-                                Icon(Icons.Default.Close, contentDescription = "Fermer", modifier = Modifier.size(16.dp))
+                                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.close), modifier = Modifier.size(16.dp))
                             }
                         }
                     }
@@ -285,9 +287,9 @@ fun SettingsScreen(
             }
 
             // About Section
-            SettingsSection(title = "À propos") {
+            SettingsSection(title = stringResource(R.string.about)) {
                 ListItem(
-                    headlineContent = { Text("Version") },
+                    headlineContent = { Text(stringResource(R.string.version)) },
                     supportingContent = { Text("1.0.0") },
                     leadingContent = {
                         Icon(Icons.Default.Info, contentDescription = null)
@@ -297,7 +299,7 @@ fun SettingsScreen(
                 Divider()
                 
                 ListItem(
-                    headlineContent = { Text("Politique de confidentialité") },
+                    headlineContent = { Text(stringResource(R.string.privacy_policy)) },
                     leadingContent = {
                         Icon(Icons.Default.PrivacyTip, contentDescription = null)
                     },
@@ -334,20 +336,20 @@ fun SettingsScreen(
         if (uiState.showRestoreConfirmation) {
             AlertDialog(
                 onDismissRequest = viewModel::dismissRestoreConfirmation,
-                title = { Text("Restaurer la sauvegarde") },
+                title = { Text(stringResource(R.string.restore_confirmation_title)) },
                 text = { 
-                    Text("Cette action remplacera toutes les données locales par celles de la sauvegarde. Cette opération est irréversible. Êtes-vous sûr ?") 
+                    Text(stringResource(R.string.restore_confirmation_text)) 
                 },
                 confirmButton = {
                     TextButton(
-                        onClick = viewModel::restoreFromGoogleDrive
+                        onClick = { viewModel.restoreFromGoogleDrive() }
                     ) {
-                        Text("Restaurer", color = MaterialTheme.colorScheme.error)
+                        Text(stringResource(R.string.restore), color = MaterialTheme.colorScheme.error)
                     }
                 },
                 dismissButton = {
                     TextButton(onClick = viewModel::dismissRestoreConfirmation) {
-                        Text("Annuler")
+                        Text(stringResource(R.string.cancel))
                     }
                 }
             )
@@ -409,14 +411,14 @@ fun ReminderSettingItem(
         
         if (isEnabled) {
             ListItem(
-                headlineContent = { Text("Heure") },
+                headlineContent = { Text(stringResource(R.string.time)) },
                 supportingContent = { Text(time.format(timeFormatter)) },
                 leadingContent = {
                     Spacer(modifier = Modifier.width(24.dp))
                 },
                 trailingContent = {
                     TextButton(onClick = onTimeClick) {
-                        Text("Modifier")
+                        Text(stringResource(R.string.edit))
                     }
                 },
                 modifier = Modifier.clickable(onClick = onTimeClick)
@@ -442,7 +444,7 @@ fun TimePickerDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Sélectionner l'heure") },
+        title = { Text(stringResource(R.string.select_time_title)) },
         text = {
             TimePicker(state = timePickerState)
         },
@@ -450,12 +452,12 @@ fun TimePickerDialog(
             TextButton(
                 onClick = { onConfirm(timePickerState.hour, timePickerState.minute) }
             ) {
-                Text("OK")
+                Text(stringResource(R.string.ok))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Annuler")
+                Text(stringResource(R.string.cancel))
             }
         }
     )

@@ -1,6 +1,5 @@
 package com.nannymeals.app.domain.model
 
-import com.nannymeals.app.data.entity.MealType
 import java.time.LocalDate
 
 data class MealReport(

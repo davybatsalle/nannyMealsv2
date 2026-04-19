@@ -1,7 +1,9 @@
 package com.nannymeals.app.ui.meals
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nannymeals.app.R
 import com.nannymeals.app.domain.model.Child
 import com.nannymeals.app.domain.model.Meal
 import com.nannymeals.app.domain.repository.ChildRepository
@@ -117,7 +119,7 @@ class MealsListViewModel @Inject constructor(
         _uiState.update { it.copy(mealToDelete = null) }
     }
 
-    fun deleteMeal(mealId: Long) {
+    fun deleteMeal(mealId: Long, context: Context) {
         viewModelScope.launch {
             try {
                 mealRepository.deleteMeal(mealId)
@@ -125,7 +127,7 @@ class MealsListViewModel @Inject constructor(
             } catch (e: Exception) {
                 _uiState.update { 
                     it.copy(
-                        error = e.message ?: "Échec de la suppression du repas",
+                        error = e.message ?: context.getString(R.string.error_delete_meal),
                         mealToDelete = null
                     ) 
                 }
@@ -142,10 +144,10 @@ class MealsListViewModel @Inject constructor(
     }
 
     /**
-     * Generates a shareable text message summarizing the day's meals for Facebook sharing.
+     * Generates a shareable text message summarizing the day's meals for sharing.
      * Returns null if there are no meals to share.
      */
-    fun generateShareText(): String? {
+    fun generateShareText(context: Context): String? {
         val meals = _mealsForSelectedDate.value
         if (meals.isEmpty()) return null
 
@@ -153,19 +155,22 @@ class MealsListViewModel @Inject constructor(
         val today = LocalDate.now()
         
         val dateIntro = when {
-            selectedDate == today -> "Aujourd'hui"
-            selectedDate == today.minusDays(1) -> "Hier"
-            else -> "Le ${selectedDate.format(java.time.format.DateTimeFormatter.ofPattern("d MMMM", java.util.Locale.FRENCH))}"
+            selectedDate == today -> context.getString(R.string.share_intro_today)
+            selectedDate == today.minusDays(1) -> context.getString(R.string.share_intro_yesterday)
+            else -> {
+                val formattedDate = selectedDate.format(java.time.format.DateTimeFormatter.ofPattern("d MMMM"))
+                context.getString(R.string.share_intro, formattedDate)
+            }
         }
 
         val builder = StringBuilder()
-        builder.append("$dateIntro chez Nanny, on a mangé :\n\n")
+        builder.append("$dateIntro\n\n")
 
         // Group meals by type and list items
         meals.sortedBy { it.time }.forEach { meal ->
             val items = meal.items
             if (items.isNotEmpty()) {
-                builder.append("🍽️ ${meal.mealTypeDisplay} :\n")
+                builder.append("🍽️ ${meal.getMealTypeDisplay(context)} :\n")
                 items.forEach { item ->
                     builder.append("  • ${item.name}")
                     if (item.portion.isNotBlank()) {

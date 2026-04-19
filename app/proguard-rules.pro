@@ -3,9 +3,13 @@
 -keepattributes *Annotation*
 
 # Firebase
--keepclassmembers class com.nannymeals.app.** {
+-keepclassmembers class com.nannymeals.app.domain.model.** {
     *;
 }
+-keep class com.google.firebase.** { *; }
+-keepattributes Signature
+-keepattributes *Annotation*
+-dontwarn com.google.firebase.**
 
 # Room
 -keep class * extends androidx.room.RoomDatabase

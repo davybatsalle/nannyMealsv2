@@ -10,6 +10,23 @@ import com.nannymeals.app.domain.model.FoodItem
 import com.nannymeals.app.domain.model.Meal
 import com.nannymeals.app.domain.model.MealItem
 
+import com.nannymeals.app.data.entity.MealType as DataMealType
+import com.nannymeals.app.domain.model.MealType as DomainMealType
+
+fun DataMealType.toDomain(): DomainMealType {
+    return when (this) {
+        DataMealType.LUNCH -> DomainMealType.LUNCH
+        DataMealType.SNACK -> DomainMealType.SNACK
+    }
+}
+
+fun DomainMealType.toData(): DataMealType {
+    return when (this) {
+        DomainMealType.LUNCH -> DataMealType.LUNCH
+        DomainMealType.SNACK -> DataMealType.SNACK
+    }
+}
+
 fun ChildEntity.toChild(): Child {
     return Child(
         id = id,
@@ -41,7 +58,7 @@ fun MealEntity.toMeal(children: List<Child> = emptyList(), items: List<MealItem>
         id = id,
         date = date,
         time = time,
-        mealType = mealType,
+        mealType = mealType.toDomain(),
         notes = notes,
         children = children,
         items = items
@@ -53,7 +70,7 @@ fun MealWithChildren.toMeal(): Meal {
         id = meal.id,
         date = meal.date,
         time = meal.time,
-        mealType = meal.mealType,
+        mealType = meal.mealType.toDomain(),
         notes = meal.notes,
         children = children.map { it.toChild() },
         items = items.map { it.toMealItem() }
@@ -66,7 +83,7 @@ fun Meal.toEntity(userId: String): MealEntity {
         userId = userId,
         date = date,
         time = time,
-        mealType = mealType,
+        mealType = mealType.toData(),
         notes = notes,
         updatedAt = System.currentTimeMillis()
     )

@@ -1,5 +1,6 @@
 package com.nannymeals.app.data.repository
 
+import android.content.Context
 import com.nannymeals.app.data.dao.FoodItemDao
 import com.nannymeals.app.data.entity.DefaultFoodItems
 import com.nannymeals.app.data.entity.FoodCategory
@@ -8,6 +9,7 @@ import com.nannymeals.app.data.mapper.toEntity
 import com.nannymeals.app.data.mapper.toFoodItem
 import com.nannymeals.app.domain.model.FoodItem
 import com.nannymeals.app.domain.repository.FoodItemRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.concurrent.TimeUnit
@@ -16,7 +18,8 @@ import javax.inject.Singleton
 
 @Singleton
 class FoodItemRepositoryImpl @Inject constructor(
-    private val foodItemDao: FoodItemDao
+    private val foodItemDao: FoodItemDao,
+    @ApplicationContext private val context: Context
 ) : FoodItemRepository {
 
     private val userId: String = "local_user"
@@ -85,19 +88,19 @@ class FoodItemRepositoryImpl @Inject constructor(
     }
 
     override suspend fun initializeDefaultItems() {
-        // Check if defaults already exist
-        val existingCount = foodItemDao.getFoodItemCount(userId)
-        if (existingCount > 0) return
-
-        // Add all default food items
-        val defaultItems = DefaultFoodItems.getAllDefaults().map { (name, category) ->
+        // Clear existing defaults to ensure we have the localized names
+        foodItemDao.deleteDefaultFoodItems(userId)
+        
+        // Add default food items with current system language
+        val defaultItems = DefaultFoodItems.getAllDefaults().map { (resId, category) ->
             FoodItemEntity(
                 userId = userId,
-                name = name,
+                name = context.getString(resId),
                 category = category,
                 isDefault = true
             )
         }
+        
         foodItemDao.insertFoodItems(defaultItems)
     }
 }

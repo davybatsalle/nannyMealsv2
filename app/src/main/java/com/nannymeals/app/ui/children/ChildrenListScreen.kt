@@ -10,9 +10,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.ui.res.stringResource
+import com.nannymeals.app.R
 import com.nannymeals.app.domain.model.Child
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -28,7 +31,7 @@ fun ChildrenListScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Enfants") },
+                title = { Text(stringResource(R.string.children)) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary
@@ -42,7 +45,7 @@ fun ChildrenListScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Ajouter un enfant"
+                    contentDescription = stringResource(R.string.add_child)
                 )
             }
         }
@@ -84,18 +87,18 @@ fun ChildrenListScreen(
             uiState.childToDelete?.let { child ->
                 AlertDialog(
                     onDismissRequest = viewModel::dismissDeleteConfirmation,
-                    title = { Text("Supprimer l'enfant") },
-                    text = { Text("Êtes-vous sûr de vouloir supprimer le profil de ${child.name} ? Cela supprimera également tous les repas associés.") },
+                    title = { Text(stringResource(R.string.delete_child)) },
+                    text = { Text(stringResource(R.string.delete_child_confirmation, child.name)) },
                     confirmButton = {
                         TextButton(
                             onClick = { viewModel.deleteChild(child.id) }
                         ) {
-                            Text("Supprimer", color = MaterialTheme.colorScheme.error)
+                            Text(stringResource(R.string.delete), color = MaterialTheme.colorScheme.error)
                         }
                     },
                     dismissButton = {
                         TextButton(onClick = viewModel::dismissDeleteConfirmation) {
-                            Text("Annuler")
+                            Text(stringResource(R.string.cancel))
                         }
                     }
                 )
@@ -109,7 +112,7 @@ fun ChildrenListScreen(
                         .padding(16.dp),
                     action = {
                         TextButton(onClick = viewModel::clearError) {
-                            Text("Fermer")
+                            Text(stringResource(R.string.close))
                         }
                     }
                 ) {
@@ -151,7 +154,7 @@ fun ChildCard(
                 Spacer(modifier = Modifier.height(4.dp))
                 
                 Text(
-                    text = child.ageDisplay,
+                    text = child.getAgeDisplay(LocalContext.current),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -162,7 +165,7 @@ fun ChildCard(
                         if (child.hasAllergies) {
                             AssistChip(
                                 onClick = { },
-                                label = { Text("Allergies", style = MaterialTheme.typography.labelSmall) },
+                                label = { Text(stringResource(R.string.allergies), style = MaterialTheme.typography.labelSmall) },
                                 leadingIcon = {
                                     Icon(
                                         Icons.Default.Warning,
@@ -177,7 +180,7 @@ fun ChildCard(
                         if (child.hasDietaryRestrictions) {
                             AssistChip(
                                 onClick = { },
-                                label = { Text("Régime", style = MaterialTheme.typography.labelSmall) },
+                                label = { Text(stringResource(R.string.diet), style = MaterialTheme.typography.labelSmall) },
                                 leadingIcon = {
                                     Icon(
                                         Icons.Default.Restaurant,
@@ -195,7 +198,7 @@ fun ChildCard(
             IconButton(onClick = onDelete) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = "Supprimer",
+                    contentDescription = stringResource(R.string.delete),
                     tint = MaterialTheme.colorScheme.error
                 )
             }
@@ -223,7 +226,7 @@ fun EmptyChildrenState(
         Spacer(modifier = Modifier.height(16.dp))
         
         Text(
-            text = "Aucun enfant ajouté",
+            text = stringResource(R.string.no_children_added),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -231,7 +234,7 @@ fun EmptyChildrenState(
         Spacer(modifier = Modifier.height(8.dp))
         
         Text(
-            text = "Ajoutez un enfant pour commencer à suivre ses repas",
+            text = stringResource(R.string.add_child_description),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -241,7 +244,7 @@ fun EmptyChildrenState(
         Button(onClick = onAddChild) {
             Icon(Icons.Default.Add, contentDescription = null)
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Ajouter un enfant")
+            Text(stringResource(R.string.add_child))
         }
     }
 }

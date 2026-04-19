@@ -1,6 +1,7 @@
 package com.nannymeals.app.domain.model
 
-import com.nannymeals.app.data.entity.MealType
+import android.content.Context
+import com.nannymeals.app.R
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -25,10 +26,11 @@ data class Meal(
     
     val itemsSummary: String
         get() = items.joinToString(", ") { it.name }
-    
-    val mealTypeDisplay: String
-        get() = when (mealType) {
-            MealType.LUNCH -> "Déjeuner"
-            MealType.SNACK -> "Collation"
+
+    fun getMealTypeDisplay(context: Context): String {
+        return when (mealType) {
+            MealType.LUNCH -> context.getString(R.string.lunch)
+            MealType.SNACK -> context.getString(R.string.snack)
         }
+    }
 }
